@@ -1,0 +1,25 @@
+﻿@model UpdateAuthorDTO
+
+@{
+	ViewData["Title"] = "Editar Autor";
+}
+
+<h1>@ViewData["Title"] </h1>
+
+<form asp-action="Update" method="POST">
+
+	<input type="hidden" asp-for="Id" />
+
+	<div class="form-floating mb-3">
+		<input asp-for="FirstName" type="text" class="form-control" placeholder="Ingrese los nombres">
+		<label for="floatingInput">Nombres</label>
+	</div>
+
+	<div class="form-floating mb-3">
+		<input asp-for="LastName" type="text" class="form-control" placeholder="Ingrese los apellidos">
+		<label for="floatingInput">Apellidos</label>
+	</div>
+
+	<button type="submit" class="btn btn-primary">Guardar</button>
+
+</form>

@@ -1,0 +1,72 @@
+﻿@model List<MyLibrary.Web.Data.Entities.Book>
+
+@{
+	ViewData["Title"] = "Libros";
+}
+
+<h1>Autores</h1>
+
+<a asp-action="Create" class="btn btn-primary mb-2">Nuevo Libro</a>
+
+
+<table class="table table-bordered">
+
+	<thead>
+		<th>Titulo</th>
+		<th>Autor</th>
+		<th></th>
+	</thead>
+
+	<tbody>
+		@foreach (var book in Model)
+		{
+			<tr>
+				<td>@book.Title</td>
+				<td>@($"{book.Author.FirstName} {book.Author.LastName}")</td>
+				<td>
+					<a class="btn btn-warning" asp-action="GetOne" asp-route-id="@book.Id">Editar</a>
+					<form asp-action="Delete" method="POST" asp-route-id="@book.Id" style="display:contents;">
+						<button class="btn btn-danger btnDelete">Eliminar</button>
+					</form>
+				</td>
+			</tr>
+		}
+	</tbody>
+
+</table>
+
+@section Scripts {
+
+	<script>
+
+		$(document).ready(function() {
+
+			$('.btnDelete').click(function(event) {
+
+				event.preventDefault();
+
+				Swal.fire({
+					title: "¿Desea eliminar el libro?",
+					text: "No podrá revertirlo",
+					showCancelButton: true,
+					icon: 'question',
+					confirmButtonText: "Si",
+					cancelButtonText: `No`
+
+				}).then((result) => {
+
+					if (result.isConfirmed) {
+
+						const form = $(this).closest('form');
+
+						form.submit();
+					}
+				});
+
+			});
+
+			
+		});
+
+	</script>
+}
