@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('isbn')->unique();
-            $table->interger('stock')->default(1);
-            $table->foreignId('author_id')->constrained()->onDelete('cascede');
+            $table->integer('stock')->default(1);
+            $table->foreignId('author_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
