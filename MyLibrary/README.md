@@ -1,58 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+#  MyLibrary - Sistema de Gestión de Biblioteca
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este es un sistema de gestión para bibliotecas desarrollado en **PHP** utilizando el framework **Laravel 11** y **MySQL** como motor de base de datos. El proyecto utiliza una arquitectura limpia basada en el patrón Modelo-Vista-Controlador (MVC).
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Reparto del Equipo de Desarrollo
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+*   **Desarrollador 1 (Base de Datos y Modelos): Juan David Mosquera Cabrera
+*   **Desarrollador 2 (Validaciones y Lógica de Negocio): Katty Dalieth Reyes Pérez
+*   **Desarrollador 3 (Controladores, API y Rutas): Andres Steven Velasquez Usuga
+*   **Desarrollador 4 (Interfaz de Usuario y Vistas Blade): Saray Milena Parra Henao
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Requisitos Previos
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Antes de instalar el proyecto, asegúrate de tener instalado en tu computadora:
+*   [PHP 8.2 o superior](https://php.net)
+*   [Composer](https://getcomposer.org)
+*   [XAMPP](https://apachefriends.org) (Con el módulo MySQL activo)
+*   [Git](https://git-scm.com)
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Instrucciones de Instalación para el Equipo
 
-## Agentic Development
+Si eres uno de los desarrolladores del equipo, sigue estos pasos para montar el proyecto de forma idéntica en tu máquina local:
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
+### 1. Clonar el repositorio y actualizar código
+Abre tu terminal en tu carpeta de proyectos y descarga los últimos cambios subidos por el Integrante 1:
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git pull origin main
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Instalar dependencias de PHP
+Entra a la carpeta del proyecto e instala los paquetes necesarios administrados por Composer:
+```bash
+cd MyLibrary
+composer install
+```
 
-## Contributing
+### 3. Configurar el archivo de entorno `.env`
+Crea una copia del archivo de configuración ambiental:
+```bash
+cp .env.example .env
+```
+*(Si usas la consola clásica CMD de Windows y te da error, utiliza: `copy .env.example .env`)*
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Abre el nuevo archivo `.env` en VS Code y asegúrate de configurar las credenciales de tu base de datos de XAMPP:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=letras_y_tinta
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Code of Conduct
+### 4. Generar la clave de la aplicación
+```bash
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. Ejecutar Migraciones y Seeders (Poblar Base de Datos)
+Asegúrate de tener **XAMPP abierto y el módulo de MySQL encendido en color verde**. Luego, ejecuta este comando para crear las tablas en tu servidor e inyectar los 30 libros y autores de prueba de forma automática:
+```bash
+php artisan migrate:fresh --seed
+```
 
-## Security Vulnerabilities
+### 6. Levantar el servidor local
+```bash
+php artisan serve
+```
+Ya puedes abrir en tu navegador la dirección que te indique la consola (normalmente `http://127.0.0.1:8000`) para ver el proyecto corriendo.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Estructura Base de Datos Creada (Fase 1)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+El sistema ya cuenta con las siguientes entidades y sus relaciones lógicas listas en Eloquent ORM:
+*   **`users`**: Administradores, bibliotecarios y lectores.
+*   **`authors`**: Autores de los libros de la biblioteca.
+*   **`books`**: Catálogo de libros (enlazados con su respectivo `author_id`).
+*   **`loans`**: Registro transaccional de los préstamos realizados (conecta `user_id` y `book_id`).
