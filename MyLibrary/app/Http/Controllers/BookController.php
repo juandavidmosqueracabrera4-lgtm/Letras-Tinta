@@ -15,6 +15,14 @@ class BookController extends Controller
         return response()->json($books);
     }
 
+    // Método para retornar la vista del formulario con la lista de autores
+     public function create()
+    {
+        $authors = \App\Models\Author::all(); // Trae los autores para el menú desplegable
+        return view('books.create', compact('authors')); // Abre resources/views/books/create.blade.php
+    }
+
+
     //guardar un nuevo libro y asociarlo en las tablas intermedias
     public function store(StoreBookRequest $request)
     {

@@ -44,7 +44,7 @@
                     name="author_ids[]"
                     class="form-select"
                     multiple required>  
-                <option value=""disabled>Seleccione los autores del libro</option>
+                <option value="" disabled>Seleccione los autores del libro</option>
 
                 @foreach($authors as $author)
                     <option value="{{ $author->id }}"
