@@ -3,13 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Book extends Model
 {
-    //un libro pertece a muchos autores
+
+    use HasFactory;
+
+    protected $fillable = ['title', 'isbn', 'status', 'available_copie'];
+
+    //Relación muchos a muchos con autores
     public function author()
     {
-        return $this->belongsTo(Author::class);
+        return $this->belongsToMany(Author::class, 'book_authors');
+    }
+
+    //Relación muchos a muchos con categorías
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'book_categories');
     }
      
     //un libro puede tener muchos préstamos
