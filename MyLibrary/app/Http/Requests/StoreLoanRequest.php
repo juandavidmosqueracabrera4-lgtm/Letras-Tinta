@@ -12,18 +12,18 @@ class StoreLoanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
-        return [
-            //
+        return[
+            'user_id' => 'required|interger|exists:users,id',
+            'book_id' => 'required|interger|esists:books,id',
+            'loan_date' => 'required|date',
+            'return_date' => 'nullable|date|after_or_equal:loan_date',
+            'status' => 'nullable|string|in:active,retuerned,overdue',
         ];
     }
+
 }
