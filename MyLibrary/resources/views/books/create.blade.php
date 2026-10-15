@@ -35,20 +35,20 @@
         </div>
 
         <div class="mb-3">
-            <label for="author_id" class="form-label">
-                Autor;
+            <label 
+            for="author_ids" class="form-label">Autores
             </label>
 
             <select
-                    id="author_id"
-                    name="author_id"
+                    id="author_ids"
+                    name="author_ids[]"
                     class="form-select"
-                    required>
-                <option value="">Seleccione un autor</option>
+                    multiple required>  
+                <option value=""disabled>Seleccione los autores del libro</option>
 
                 @foreach($authors as $author)
                     <option value="{{ $author->id }}"
-                        {{ old('author_id') == $author->id ? 'selected' : '' }}>
+                        {{ is_array(old('author_ids')) && in_array($author->id, old('author_ids')) ? 'selected' : '' }}>
                         {{ $author->name }}
                     </option>
                 @endforeach
@@ -70,16 +70,17 @@
         </div>
 
         <div class="mb-3">
-            <label for="stock" class="form-label">
+            <label for="available_copies" class="form-label">
                 Ejemplares Disponibles
             </label>
 
             <input
                     type="number"
-                    id="stock"
-                    name="stoc"
+                    id="available_copies"
+                    name="available_copies"
                     class="form-control"
-                    value="{{ old('stock', 1) }}"
+                    value="{{ old('available_copies', 1) }}"
+                    min="0"
                     required>
         </div>
 
