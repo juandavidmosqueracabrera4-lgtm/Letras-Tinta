@@ -10,10 +10,10 @@ class Book extends Model
 
     use HasFactory;
 
-    protected $fillable = ['title', 'isbn', 'status', 'available_copie'];
+    protected $fillable = ['title', 'isbn', 'status', 'available_copies'];
 
     //Relación muchos a muchos con autores
-    public function author()
+    public function authors()
     {
         return $this->belongsToMany(Author::class, 'book_authors');
     }

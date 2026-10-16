@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('isbn')->unique();
-            $table->integer('stock')->default(1);
-            $table->foreignId('author_id')->constrained()->onDelete('cascade');
+            $table->string('title', 255);
+            $table->string('isbn', 50)->unique();
+            $table->string('status', 50)->default('available');
+            $table->integer('available_copies')->default(1);
             $table->timestamps();
         });
     }
