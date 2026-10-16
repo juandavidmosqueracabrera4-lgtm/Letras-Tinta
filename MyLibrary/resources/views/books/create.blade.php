@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Añadir Nuevo Libro</title>
-    
+    <title>Add New Book</title>
+
      <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet">
@@ -14,7 +14,7 @@
 
     <body class="container mt-5" style ="max-width: 600px;">
 
-    <h1>Nuevo Libro</h1>
+    <h1>New Book</h1>
     <form action="{{ route('books.store') }}" method="POST"
     class="card p-4 shadow-sm">
 
@@ -22,7 +22,7 @@
 
     <div class="mb-3">
         <label for="title" class="form-label">
-            Título del Libro
+            Book Title
         </label>
 
         <input
@@ -36,7 +36,7 @@
 
         <div class="mb-3">
             <label for="author_id" class="form-label">
-                Autor;
+                Author;
             </label>
 
             <select
@@ -44,7 +44,7 @@
                     name="author_id"
                     class="form-select"
                     required>
-                <option value="">Seleccione un autor</option>
+                <option value="">Select an author</option>
 
                 @foreach($authors as $author)
                     <option value="{{ $author->id }}"
@@ -71,7 +71,7 @@
 
         <div class="mb-3">
             <label for="stock" class="form-label">
-                Ejemplares Disponibles
+                Available Copies
             </label>
 
             <input
@@ -86,11 +86,11 @@
            <div class="d-flex justify-content-between">
             <a href="{{ route('books.index') }}"
                class="btn btn-secondary">
-                Cancelar
+                Cancel
             </a>
 
             <button type="submit" class="btn btn-success">
-                Guardar libro
+                Save Book
             </button>
         </div>
 
