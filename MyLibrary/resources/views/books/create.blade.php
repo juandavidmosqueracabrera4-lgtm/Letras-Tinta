@@ -15,6 +15,16 @@
     <body class="container mt-5" style ="max-width: 600px;">
 
     <h1>Nuevo Libro</h1>
+
+    @if ($errors->any())
+    <div class="alert alert-danger shadow-sm">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+   @endif
     <form action="{{ route('books.store') }}" method="POST"
     class="card p-4 shadow-sm">
 

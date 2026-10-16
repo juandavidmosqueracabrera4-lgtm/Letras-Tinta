@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Request\StoreLoanRequest;
+use App\Http\Requests\StoreBookRequest;
 use App\Models\Book;
+use App\Models\Author;
 
 class BookController extends Controller
 {
@@ -26,19 +27,22 @@ class BookController extends Controller
     //guardar un nuevo libro y asociarlo en las tablas intermedias
     public function store(StoreBookRequest $request)
     {
-        //el Request validado ya usa 'available_copies' y 'status'
-        $book = Book::create($request->validated());
+    // Crea el libro con los campos validados básicos
+    $book = Book::create([
+        'title' => $request->title,
+        'isbn' => $request->isbn,
+        'available_copies' => $request->available_copies,
+        'status' => 'available' // Estado por defecto según el diagrama del profesor
+    ]);
 
-        //asociar los IDs de autores y categorias en las tablas pivote
-        if ($request->has('author_ids')){
-            $book->authors()->attach($request->author_ids);
-        }
-
-        if ($request->has('category_ids')){
-            $book->categories()->attach($request->category_ids);
-        }
-
-        return response()->json(['message' => 'Libro creado con éxito', 'book' => $book], 201);
+    // Asocia los múltiples IDs de autores en la tabla pivote intermedia
+    if ($request->has('author_ids')) {
+        $book->authors()->attach($request->author_ids);
     }
 
+    return response()->json([
+        'message' => 'Libro registrado exitosamente con sus autores',
+        'book' => $book->load('authors')
+    ], 201);
+    }
 }
