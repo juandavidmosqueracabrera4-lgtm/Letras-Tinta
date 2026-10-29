@@ -7,7 +7,7 @@ Route::get('/', function () {
 });
 
 use App\Http\Controllers\BookController;
-use App\Http\Contrallers\LoanController;
+use App\Http\Controllers\LoanController;
 
 //enlaces web para la administraciòn de los libros
 Route::get('/libros', [BookController::class, 'index'])->name('books.index');
