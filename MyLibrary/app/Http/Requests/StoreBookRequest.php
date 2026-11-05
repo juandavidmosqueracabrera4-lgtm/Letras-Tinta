@@ -15,8 +15,10 @@ class StoreBookRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'author_ids' => 'required|array',
+            'author_ids' => 'required|array|min:1', 
             'author_ids.*' => 'integer|exists:authors,id',
+            'category_ids'=>'nullable|array',
+            'category_ids.*'=>'integer|exists:categories,id',
             'isbn' => 'required|string|unique:books,isbn',
             'available_copies' => 'required|integer|min:0',
         ];

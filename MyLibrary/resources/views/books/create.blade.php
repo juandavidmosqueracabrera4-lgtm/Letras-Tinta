@@ -20,6 +20,16 @@
 
     @csrf
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            </div>
+        @endif
+
     <div class="mb-3">
         <label for="title" class="form-label">
             Book Title
@@ -36,7 +46,7 @@
 
         <div class="mb-3">
             <label for="author_ids" class="form-label">
-                Author;
+                Authors;
             </label>
 
             <select
@@ -48,13 +58,38 @@
 
                 @foreach($authors as $author)
                     <option value="{{ $author->id }}"
-                        {{ is_array(old('author_ids')) && in_array($author->id, old('author_ids')) ? 'selected' : '' }}>
+                        {{ is_array(old('author_ids')) && in_array($author->id,
+                         old('author_ids')) ? 'selected' : '' }}>
                         {{ $author->name }}
                     </option>
                 @endforeach
 
                 </select>
         </div>
+
+        <div class="mb-3">
+            <label for="category_ids" class="form-label">
+                Categories
+            </label>
+
+            <select
+                    id="category_ids"
+                    name="category_ids[]"
+                    class="form-select"
+                    multiple>
+                <option value="" disabled>Select categories</option>
+
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}"
+                        {{ is_array(old('category_ids')) && in_array($category->id, 
+                        old('category_ids')) ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+
+            </select>
+        </div>
+
         <div class="mb-3">
             <label for="isbn" class="form-label">
                 ISBN

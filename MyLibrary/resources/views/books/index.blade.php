@@ -21,11 +21,12 @@
         </div>
     @endif
 
-    <table class="table table-striped table bordered">
+    <table class="table table-striped table-bordered">
         <thead class="table-dark">
             <tr>
                 <th>Title</th>
                 <th>Author</th>
+                <th>Categories</th>
                 <th>ISBN</th>
                 <th>Available Copies</th>
             </tr>
@@ -35,9 +36,10 @@
             @forelse($books as $book)
                 <tr>
                     <td>{{ $book->title }}</td>
-                    <td>{{ $book->author->name ?? 'Sin autor asignado' }}</td>
+                    <td>{{ $book->authors->pluck('name')-> join(', ') ?: 'No author assigned' }}</td>
+                    <td>{{ $book->categories->pluck('name')-> join(', ') ?: 'No category assigned' }}</td>
                     <td>{{ $book->isbn }}</td>
-                    <td>{{ $book->stock }}</td>
+                    <td>{{ $book->available_copies }}</td>
                 </tr>
             @empty
                 <tr>

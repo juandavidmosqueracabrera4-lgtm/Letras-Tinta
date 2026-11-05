@@ -5,22 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreBookRequest;
 use App\Models\Book;
+use App\Models\Category;
 use App\Models\Author;
 
 class BookController extends Controller
 {
-    //lista de libros con sus autores y categorias
+    // Mostrar el catálogo de libros
     public function index()
     {
         $books = Book::with(['authors', 'categories'])->get();
-        return response()->json($books);
+        return view('books.index', compact('books'));
     }
 
     // Método para retornar la vista del formulario con la lista de autores
      public function create()
     {
         $authors = \App\Models\Author::all(); // Trae los autores para el menú desplegable
-        return view('books.create', compact('authors')); // Abre resources/views/books/create.blade.php
+        $categories = \App\Models\Category::all(); // Trae las categorías para el menú desplegable
+        return view('books.create', compact('authors', 'categories')); // Abre resources/views/books/create.blade.php
     }
 
 
@@ -40,9 +42,11 @@ class BookController extends Controller
         $book->authors()->attach($request->author_ids);
     }
 
-    return response()->json([
-        'message' => 'Libro registrado exitosamente con sus autores',
-        'book' => $book->load('authors')
-    ], 201);
+    if ($request->filled('category_ids')) {
+        $book->categories()->attach($request->category_ids);
+    }
+        return redirect()
+        ->route('books.index')
+        ->with('success', 'Libro registrado exitosamente.');
     }
 }
