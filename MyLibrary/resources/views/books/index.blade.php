@@ -29,6 +29,7 @@
                 <th>Categories</th>
                 <th>ISBN</th>
                 <th>Available Copies</th>
+                <th>Actions</th>
             </tr>
         </thead>
 
@@ -40,10 +41,30 @@
                     <td>{{ $book->categories->pluck('name')-> join(', ') ?: 'No category assigned' }}</td>
                     <td>{{ $book->isbn }}</td>
                     <td>{{ $book->available_copies }}</td>
-                </tr>
+                    <td>
+                        <a href="{{ route('books.edit', $book->id)}}"
+                            class="btn btn-warning btn-sm ">
+                            Edit
+                        </a>
+
+                        <form action="{{ route('books.destroy', $book->id) }}"
+                            method="POST"
+                            class="d-inline"
+                            onsubmit="return confirm('Are you sure you want to delete this book')">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+
+                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="text-center">
+                    <td colspan="6" class="text-center">
                         No books are registered.
                     </td>
                 </tr>
