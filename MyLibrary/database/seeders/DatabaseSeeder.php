@@ -16,8 +16,20 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Test User', 'password' => bcrypt('password')]
         );
 
-        // Generar los 30 libros y autores
-        Book::factory(30)->create();
+        // 2. CREAR AUTORES PREDETERMINADOS 
+        $autores = [
+            ['name' => 'Gabriel García Márquez'],
+            ['name' => 'Miguel de Cervantes'],
+            ['name' => 'Isabel Allende'],
+            ['name' => 'Jorge Luis Borges'],
+            ['name' => 'Julio Cortázar']
+        ];
+
+        foreach ($autores as $autor) {
+            Author::firstOrCreate(['name' => $autor['name']]);
+        }
+
+
     }
 }
 
