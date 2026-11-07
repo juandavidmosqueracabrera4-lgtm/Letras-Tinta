@@ -1,20 +1,29 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\UsersController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\LoanController;
-
-//enlaces web para la administraciòn de los libros
+// Enlaces web para la administración de los libros
 Route::get('/libros', [BookController::class, 'index'])->name('books.index');
 Route::get('/libros/crear', [BookController::class, 'create'])->name('books.create');
 Route::post('/libros/guardar', [BookController::class, 'store'])->name('books.store');
 Route::delete('/libros/eliminar/{id}', [BookController::class, 'destroy'])->name('books.destroy');
 
-//enlaces web para la administracion de prestamos
+// Enlaces web para la administración de préstamos
 Route::get('/prestamos', [LoanController::class, 'index']);
 Route::post('/prestamos/procesar', [LoanController::class, 'store']);
+
+// Enlaces web para la administración de usuarios
+Route::get('/usuarios', [UsersController::class, 'index'])->name('users.index');
+Route::get('/usuarios/crear', [UsersController::class, 'create'])->name('users.create');
+Route::post('/usuarios/guardar', [UsersController::class, 'store'])->name('users.store');
+Route::get('/usuarios/editar/{id}', [UsersController::class, 'edit'])->name('users.edit');
+Route::put('/usuarios/actualizar', [UsersController::class, 'update'])->name('users.update');
+Route::delete('/usuarios/eliminar/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
