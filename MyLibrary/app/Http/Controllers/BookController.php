@@ -11,6 +11,7 @@ use App\Models\Category;
 use Exception;//agregado para el manejo de excepciones con el try catch
 use Illuminate\Support\Facades\Log;//agregado para el manejo de logs, registra los errores en el archivo
 use Illuminate\Support\Facades\Session;//agregado para el manejo de sesiones y mensajes temporales a los usuarios
+use Illuminate\Validation\Rule; //agregado para
 
 class BookController extends Controller
 {
@@ -32,12 +33,59 @@ class BookController extends Controller
     // Mostrar el formulario para editar un libro
     public function edit($id)
     {
-        $book = Book::with(['authors', 'categories'])->findOrFail($id);
-        $authors = Author::all();
-        $categories = Category::all();
+        try {
+            $book = Book::with(['authors', 'categories'])->findOrFail($id);
+            $authors = Author::all();
+            $categories = Category::all();
 
-         return view('books.edit', compact('book', 'authors', 'categories'));
+            return view('books.edit', compact('book', 'authors', 'categories'));
+        } catch (Exception $ex) {
+            Log::error($ex);
+            Session::flash('message', ['content' => 'An error has occurred.','type' => 'error']);
+            return redirect()->back();
+        }
     }
+    
+
+    public function update(Request $request, $id){
+        $book= Book::FindOrFail($id);
+        //Validaciones
+        $request->validate([
+            'title'=> 'required|string|max:255',
+            'author_ids'=>'required|array|min:1',
+            'author_ids.*'=>'integer|exists:authors,id',
+            'category_ids'=>'nullable|array',
+            'category_ids.*'=>'integer|exists:categories,id',
+            'isbn'=>[ 
+                'required',
+                'string', 
+                Rule::unique('books','isbn')->ignore($book->id),],
+             'available_copies'=>'required|integer|min:0',
+        ]);
+    try {
+        $book->update([
+            'title'=>$request->title,
+            'isbn'=>$request->isbn,
+            'available_copies'=>$request->available_copies,
+        ]);
+
+    //Actualizar autores y categorias
+    $book->authors()->sync($request->author_ids);
+    $book->categories()->sync($request->category_ids ?? []);
+
+    Session::flash('message', ['content'
+    =>'Book updated successfully.','type'=>'success']);
+
+    return 
+    redirect()->route('books.index');
+    
+    }catch (Exception $ex) {
+        Log::error($ex);
+        Session::flash('message', ['content' => 'An error has occurred.','type' => 'error']);
+        return redirect()->back();
+    }
+
+        }
 
     //guardar un nuevo libro y lo asocia con las tablas intermedias
     public function store(StoreBookRequest $request)
@@ -105,17 +153,4 @@ class BookController extends Controller
         }
     }
 
-        //Metodos faltantes por implementar: show, edit, update
-
-
-        /*
-        AGREGAS ESTE CATCH AL TRY DE CADA METODO PARA QUE TENGA LA VALIDACION
-
-        //VALIDA Y DA ADVERTENCIA DEL ERROR
-        } catch (Exception $ex) {
-            Log::error($ex);
-            Session::flash('message', ['content' => 'An error has occurred.','type' => 'error']);
-            return redirect()->back();
-        }
-        */
 }
