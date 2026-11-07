@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,6 +6,12 @@ use App\Http\Requests\StoreBookRequest;
 use App\Models\Book;
 use App\Models\Author;
 use App\Models\Category;
+
+// AGREGADO PARA LAS VALIDACIONES Y EL MANEJO DE ERRORES
+use Exception;//agregado para el manejo de excepciones con el try catch
+use Illuminate\Support\Facades\Log;//agregado para el manejo de logs, registra los errores en el archivo
+use Illuminate\Support\Facades\Session;//agregado para el manejo de sesiones y mensajes temporales a los usuarios
+
 class BookController extends Controller
 {
     // Mostrar el catálogo de libros
@@ -34,48 +39,83 @@ class BookController extends Controller
          return view('books.edit', compact('book', 'authors', 'categories'));
     }
 
-    //guardar un nuevo libro y asociarlo en las tablas intermedias
+    //guardar un nuevo libro y lo asocia con las tablas intermedias
     public function store(StoreBookRequest $request)
     {
-    // Crea el libro con los campos validados básicos
-    $book = Book::create([
-        'title' => $request->title,
-        'isbn' => $request->isbn,
-        'available_copies' => $request->available_copies,
-        'status' => 'available' // Estado por defecto según el diagrama del profesor
-    ]);
 
-    // Asocia los múltiples IDs de autores en la tabla pivote intermedia
-    if ($request->has('author_ids')) {
-        $book->authors()->attach($request->author_ids);
+        // AGREGA EL MANEJO DE ERRORES CON Log::error, CON LA VALIDACION YA HECHA EN StoreBookRequest
+        try {
+
+         // Crea el libro con los campos validados basicos ya importados
+             $book = Book::create([
+             'title' => $request->title,
+             'isbn' => $request->isbn,
+             'available_copies' => $request->available_copies,
+            // Estado por defecto según el diagrama del profesor
+             'status' => 'available'
+        ]);
+
+        // Asocia los múltiples IDs de autores en la tabla pivote intermedia
+        if ($request->has('author_ids')) {
+            $book->authors()->attach($request->author_ids);
+        }
+
+        if ($request->filled('category_ids')) {
+           $book->categories()->attach($request->category_ids);
+        }
+
+        return redirect()->route('books.index')->with('success', 'Book registered successfully.');
+
+        // SI ALGO FALLA SE REGISTRA EN EL LOG Y SE AVISA CON session
+        } catch (Exception $ex) {
+            Log::error($ex);
+            Session::flash('message', ['content' => 'An error has occurred.', 'type' => 'error']);
+            return redirect()->back();
+        }
     }
 
-    if ($request->filled('category_ids')) {
-        $book->categories()->attach($request->category_ids);
-    }
-        return redirect()
-        ->route('books.index')
-        ->with('success', 'Libro registrado exitosamente.');
-    }
-
-    //metodo para eliminar un libro y limpiar sus relaciones muchos a muchos
+       //metodo para eliminar un libro y limpiar sus relaciones muchos a muchos
     public function destroy($id)
     {
-        // 1. buscar un libro por su id o arrojar un error 404 si no existe
-        $book = Book::findOrFail($id);
+        //AGREGADO EL TRY CATCH PARA LAS VALIDACIONES Y EL MANEJO DE ERRORES CON Log Y session
+        try {
+            // 1. buscar un libro por su id o arrojar un error 404 si no existe
+            $book = Book::findOrFail($id);
 
-        // 2. Desvincular de forma manual sus autores y categorías en las tablas pivote
-        // Esto limpia de inmediato las tablas 'book_authors' y 'book_categories'
-        $book->authors()->detach();
-        $book->categories()->detach();
+            // 2. Desvincular de forma manual sus autores y categorías en las tablas pivote
+            // Esto limpia de inmediato las tablas 'book_authors' y 'book_categories'
+            $book->authors()->detach();
+            $book->categories()->detach();
 
-        // 3. Eliminar el registro físico del libro en la tabla 'books'
-        $book->delete();
+            // 3. Eliminar el registro físico del libro en la tabla 'books'
+            $book->delete();
 
-        // 4. Retornar una respuesta JSON exitosa para el frontend
-        return response()->json([
-        'message' => 'El libro fue eliminado correctamente y se limpiaron sus relaciones del sistema.'
-         ], 200);
+            // 4. Retornar una respuesta JSON exitosa para el frontend
+            return response()->json([
+                'message' => 'El libro fue eliminado correctamente y se limpiaron sus relaciones del sistema.'
+            ], 200);
+
+        } catch (Exception $ex) {
+            Log::error($ex);
+            Session::flash('message', [
+                'content' => 'An error has occurred.',
+                'type' => 'error'
+            ]);
+            return redirect()->back();
+        }
     }
 
+        //Metodos faltantes por implementar: show, edit, update
+
+
+        /*
+        AGREGAS ESTE CATCH AL TRY DE CADA METODO PARA QUE TENGA LA VALIDACION
+
+        //VALIDA Y DA ADVERTENCIA DEL ERROR
+        } catch (Exception $ex) {
+            Log::error($ex);
+            Session::flash('message', ['content' => 'An error has occurred.','type' => 'error']);
+            return redirect()->back();
+        }
+        */
 }

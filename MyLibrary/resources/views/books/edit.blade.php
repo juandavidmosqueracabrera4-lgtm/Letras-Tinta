@@ -26,7 +26,7 @@
             <div class="alert alert-danger">
                 <ul class="mb-0">
                     @foreach($errors->all() as $error)
-                    <li>{{ error }}</li>
+                    <li>{{ $error }}</li>
                     @endforeach
 
                 </ul>
@@ -71,7 +71,9 @@
     </div>
 
     <div class="mb-3">
-        <label for="category_ids" class="form-label">Categories<\label>
+        <label for="category_ids" class="form-label">
+            Categories
+        </label>
 
             <select
                 id="category_ids"
@@ -87,11 +89,13 @@
                     </option>
                 @endforeach
 
-                <\select>
-            <\div>
+                </select>
+            </div>
 
             <div class= "mb-3">
-                <label for ="isbn" class="form-label">ISBN</label>
+                <label for ="isbn" class="form-label">
+                    ISBN
+                </label>
 
                 <input
                     type="text"
