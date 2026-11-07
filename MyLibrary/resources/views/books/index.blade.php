@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-     <link
+    <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet">
 </head>
@@ -42,11 +41,17 @@
             @forelse($books as $book)
                 <tr>
                     <td>{{ $book->title }}</td>
-                    <td>{{ $book->authors->pluck('name')-> join(', ') ?: 'No author assigned' }}</td>
-                    <td>{{ $book->categories->pluck('name')-> join(', ') ?: 'No category assigned' }}</td>
+                    <td>{{ $book->authors->pluck('name')->join(', ') ?: 'No author assigned' }}</td>
+                    <td>{{ $book->categories->pluck('name')->join(', ') ?: 'No category assigned' }}</td>
                     <td>{{ $book->isbn }}</td>
                     <td>{{ $book->available_copies }}</td>
                     <td>
+                        <!-- Botón para editar -->
+                        <a href="{{ route('books.edit', $book->id) }}"
+                            class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
+
                         <!-- Formulario para eliminar un libro -->
                         <form action="{{ route('books.destroy', $book->id) }}"
                             method="POST"
@@ -62,7 +67,7 @@
                         </form>
                     </td>
 
-                 </tr>
+                </tr>
             @empty
                 <!-- Mensaje cuando no hay libros registrados -->
                 <tr>
@@ -75,4 +80,4 @@
     </table>
 
 </body>
-<html>
+</html>
