@@ -24,6 +24,15 @@ class BookController extends Controller
         return view('books.create', compact('authors', 'categories')); // Abre resources/views/books/create.blade.php
     }
 
+    // Mostrar el formulario para editar un libro
+    public function edit($id)
+    {
+        $book = Book::with(['authors', 'categories'])->findOrFail($id);
+        $authors = Author::all();
+        $categories = Category::all();
+
+         return view('books.edit', compact('book', 'authors', 'categories'));
+    }
 
     //guardar un nuevo libro y asociarlo en las tablas intermedias
     public function store(StoreBookRequest $request)

@@ -13,6 +13,8 @@ use App\Http\Controllers\LoanController;
 Route::get('/libros', [BookController::class, 'index'])->name('books.index');
 Route::get('/libros/crear', [BookController::class, 'create'])->name('books.create');
 Route::post('/libros/guardar', [BookController::class, 'store'])->name('books.store');
+Route::get('/libros/editar/{id}', [BookController::class, 'edit'])->name('books.edit');
+Route::put('/libros/actualizar/{id}', [BookController::class, 'update'])->name('books.update');
 Route::delete('/libros/eliminar/{id}', [BookController::class, 'destroy'])->name('books.destroy');
 
 //enlaces web para la administracion de prestamos
