@@ -22,6 +22,21 @@ class BookController extends Controller
          return view('books.index', compact('books'));
     }
 
+    //Mostrar detalles de un libro seleccionado
+
+    public function show($id)
+    {
+
+        try{
+            $book=Book::with(['authors', 'categories'])->findOrFail($id);
+
+            return view('books.show', compact('book'));
+        }catch(Exception $ex){
+            Log::error($ex);
+            Session::flash('message', ['content' => 'An error has occurred.','type' => 'error']);
+            return redirect()->back();
+        }
+    }
     // Método para retornar la vista del formulario con la lista de autores
      public function create()
     {

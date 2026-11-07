@@ -12,6 +12,7 @@ Route::get('/', function () {
 
 // Enlaces web para la administración de los libros
 Route::get('/libros', [BookController::class, 'index'])->name('books.index');
+Route::get('/libros/{id}', [BookController::class, 'show'])->name('books.show');
 Route::get('/libros/crear', [BookController::class, 'create'])->name('books.create');
 Route::post('/libros/guardar', [BookController::class, 'store'])->name('books.store');
 Route::get('/libros/editar/{id}', [BookController::class, 'edit'])->name('books.edit');

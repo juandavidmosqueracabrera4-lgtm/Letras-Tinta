@@ -40,7 +40,12 @@
             <!-- Recorrer los libros recibidos del controlador -->
             @forelse($books as $book)
                 <tr>
-                    <td>{{ $book->title }}</td>
+                    <td>{{ $book->title }}
+                        <br>
+                        <a href="{{ route('books.show', $book->id) }}">
+                            View details
+                        </a>
+                    </td>
                     <td>{{ $book->authors->pluck('name')->join(', ') ?: 'No author assigned' }}</td>
                     <td>{{ $book->categories->pluck('name')->join(', ') ?: 'No category assigned' }}</td>
                     <td>{{ $book->isbn }}</td>
@@ -81,3 +86,4 @@
 
 </body>
 </html>
+
