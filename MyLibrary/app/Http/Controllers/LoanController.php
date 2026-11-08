@@ -36,11 +36,11 @@ class LoanController extends Controller
         ]);
 
         // CORREGIDO EL MENSAJE DE RESPUESTA y SE AGREGA EL OBJETO LOAN A LA RESPUESTA
-        return response()->json(['message' => 'Loan registered successfully', 'loan' => $loan], 201);
+        return redirect()->back()->with('success', 'Loan registered successfully');
         } catch (Exception $ex) {
-
-            Log::error($ex);
-            return response()->json(['message' => 'An error has occurred.'], 500);
+           Log::error($ex);
+           
+           return redirect()->back()->with('error', 'An error has occurred.');
         }
     }
 }
