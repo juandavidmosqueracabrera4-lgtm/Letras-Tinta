@@ -153,10 +153,9 @@ class BookController extends Controller
             // 3. Eliminar el registro físico del libro en la tabla 'books'
             $book->delete();
 
-            // 4. Retornar una respuesta JSON exitosa para el frontend
-            return response()->json([
-                'message' => 'El libro fue eliminado correctamente y se limpiaron sus relaciones del sistema.'
-            ], 200);
+            // 4. Retornar una respuesta de eliminacion exitosa para el frontend
+            return redirect()->back()->with('success',
+             'El libro fue eliminado correctamente y se limpiaron sus relaciones del sistema.');
 
         } catch (Exception $ex) {
             Log::error($ex);
