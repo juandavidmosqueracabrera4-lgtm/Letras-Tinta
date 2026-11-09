@@ -1,23 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@extends('layouts.app')
 
-    <title>Edit Book</title>
+@section('title', 'Edit Book')
 
-     <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet">
-</head>
+@section('content')
 
-<body class="container mt-5" style="max-width: 600px;">
-
-    <h1>Edit Book</h1>
+<div class="container mt-5" style="max-width: 600px;">
+<h1>Edit Book</h1>
+<p class="text-muted">
+    Update the information of the book.
+</p>
 
         <form action="{{ route('books.update', $book->id) }}" 
             method="POST"
-            class="card p-4 sadow-sm">
+            class="card p-4 shadow-sm">
     
         @csrf
         @method('PUT')
@@ -128,11 +123,11 @@
                 </a>
 
                 <button type="submit" 
-                class="bt btn-success">
+                class="btn btn-success">
                     Update Book
                 </button>
             </div>
         </form>
 
-</body>
-</html>
+</div>
+@endsection

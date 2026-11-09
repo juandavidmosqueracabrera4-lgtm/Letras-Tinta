@@ -155,7 +155,7 @@ class BookController extends Controller
 
             // 4. Retornar una respuesta de eliminacion exitosa para el frontend
             return redirect()->back()->with('success',
-             'El libro fue eliminado correctamente y se limpiaron sus relaciones del sistema.');
+             'The book was successfully deleted, and its relationships were cleared from the system.');
 
         } catch (Exception $ex) {
             Log::error($ex);

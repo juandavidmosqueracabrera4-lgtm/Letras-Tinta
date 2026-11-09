@@ -20,7 +20,7 @@ class Loan extends Model
         return $this->belongsTo(User::class);
     }
 
-    //un préstamo pertenece a un libroo en expecífico
+    //un préstamo pertenece a un libro en específico
     public function book()
     {
         return $this->belongsTo(Book::class);
