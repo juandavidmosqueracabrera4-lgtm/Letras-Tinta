@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('document', 20)->unique();
-            $table->foreignId('role_id')->constrained('roles');
+            if (!Schema::hasColumn('users','document')){     
+                $table->string('document', 20)->unique()->nullable();
+            }
+
+            if (!Schema::hasColumn('users','document')){
+                $table->foreignId('role_id')->nullable()->constrained('roles');
+            }
         });
     }
 
