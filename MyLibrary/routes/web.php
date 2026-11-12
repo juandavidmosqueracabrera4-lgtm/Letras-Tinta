@@ -19,19 +19,23 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // 1. LIBROS: Todos los roles pueden ver el catálogo
+    // 1. LIBROS: Catálogo general
     Route::middleware(['role:admin,bibliotecario,lector'])->group(function () {
         Route::get('/libros', [BookController::class, 'index'])->name('books.index');
-        Route::get('/libros/{id}', [BookController::class, 'show'])->name('books.show');
     });
 
-    // LIBROS: Solo admin y bibliotecario pueden crear, editar y eliminar
+    // LIBROS: Solo admin y bibliotecario pueden crear, editar y eliminar (ANTES de /libros/{id})
     Route::middleware(['role:admin,bibliotecario'])->group(function () {
         Route::get('/libros/crear', [BookController::class, 'create'])->name('books.create');
         Route::post('/libros/guardar', [BookController::class, 'store'])->name('books.store');
         Route::get('/libros/editar/{id}', [BookController::class, 'edit'])->name('books.edit');
         Route::put('/libros/actualizar/{id}', [BookController::class, 'update'])->name('books.update');
         Route::delete('/libros/eliminar/{id}', [BookController::class, 'destroy'])->name('books.destroy');
+    });
+
+    // LIBROS: Detalle individual (AL FINAL para que {id} no capture "/libros/crear")
+    Route::middleware(['role:admin,bibliotecario,lector'])->group(function () {
+        Route::get('/libros/{id}', [BookController::class, 'show'])->name('books.show');
     });
 
     // 2. PRÉSTAMOS: Solo admin y bibliotecario

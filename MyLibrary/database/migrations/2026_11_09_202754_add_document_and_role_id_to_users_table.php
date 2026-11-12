@@ -16,7 +16,7 @@ return new class extends Migration
                 $table->string('document', 20)->unique()->nullable();
             }
 
-            if (!Schema::hasColumn('users','document')){
+            if (!Schema::hasColumn('users','role_id')){
                 $table->foreignId('role_id')->nullable()->constrained('roles');
             }
         });
