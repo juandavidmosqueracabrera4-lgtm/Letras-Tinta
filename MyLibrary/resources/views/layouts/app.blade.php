@@ -35,7 +35,7 @@
                     </span>
                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
                         @csrf
-                        <button type="submit" class="btn btn-outline-danger btn-sm">Cerrar sesión</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Sign out</button>
                     </form>
                 </div>
             @endauth
