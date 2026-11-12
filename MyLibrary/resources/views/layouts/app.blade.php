@@ -27,6 +27,18 @@
                     Loans
                 </a>
             </div>
+
+            @auth
+                <div class="d-flex align-items-center ms-auto">
+                    <span class="navbar-text text-light me-3">
+                        {{ auth()->user()->name }} ({{ auth()->user()->role->name ?? 'Sin rol' }})
+                    </span>
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Cerrar sesión</button>
+                    </form>
+                </div>
+            @endauth
         </div>
     </nav>
 
