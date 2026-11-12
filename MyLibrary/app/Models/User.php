@@ -39,18 +39,13 @@ class User extends Authenticatable
         ];
     }
 
-    // 2. Crear la relación: Un usuario pertenece a un rol
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
 
-
-    public function hasPermission(string $permissionName): bool
+    public function hasRole(string $roleName): bool
     {
-        if (!$this->role) {
-            return false;
-        }
-        return $this->role->permissions()->where('name', $permissionName)->exists();
+        return $this->role && $this->role->name === $roleName;
     }
 }
