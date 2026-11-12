@@ -2,21 +2,33 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // En lugar de usar factory->create(), busca si ya existe o lo crea sin romperse
+        // Crear roles predeterminados
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $librarianRole = Role::firstOrCreate(['name' => 'bibliotecario']);
+        $readerRole = Role::firstOrCreate(['name' => 'lector']);
+
+        // Crear usuario de prueba con los nuevos campos 'document' y 'role_id'
         User::firstOrCreate(
             ['email' => 'test@example.com'],
-            ['name' => 'Test User', 'password' => bcrypt('password')]
+            [
+                'document' => '1000000000',
+                'name' => 'Test Admin',
+                'password' => bcrypt('password'),
+                'role_id' => $adminRole->id,
+            ]
         );
 
-        // 2. CREAR AUTORES PREDETERMINADOS 
+        // CREAR AUTORES PREDETERMINADOS 
         $autores = [
             ['name' => 'Gabriel García Márquez'],
             ['name' => 'Miguel de Cervantes'],

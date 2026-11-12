@@ -17,16 +17,31 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+     // 1. Agregar 'document' y 'role_id' al fillable
+    protected $fillable = [
+        'document',
+        'name',
+        'email',
+        'password',
+        'role_id',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // 2. Crear la relación: Un usuario pertenece a un rol
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }
