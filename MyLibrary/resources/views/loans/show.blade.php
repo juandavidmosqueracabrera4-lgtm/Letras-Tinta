@@ -41,16 +41,36 @@
         </div>
 
         <div class="mb-3">
+            <strong>Return Date:</strong>
+            <span>{{ $loan->return_date ?? 'Not returned yet' }}</span>
+        </div>
+
+        <div class="mb-3">
             <strong>Status:</strong>
-            <span class="badge bg-success">
+            <span class="badge {{$loan->status =='active' ? 'bg-success' : 
+            ($loan->status == 'returned' ? 'bg-secondary' : 'bg-warning')}}">
                 {{ ucfirst($loan->status) }}
             </span>
         </div>
 
-        <a href="{{ route('loans.index') }}" class="btn btn-secondary">
-            Back to Loans
-        </a>
+        <div class="d-flex gap-2">
 
+            @if($loan->status == 'active')
+                <form action="{{ route('loans.return', $loan->id) }}" method="POST">
+                    
+                    @csrf
+
+                    <button type="submit" class="btn btn-success">
+                        Return Book
+                    </button>
+                </form>
+            @endif
+
+                <a href="{{ route('loans.index') }}" class="btn btn-secondary">
+                    Back to Loans
+                </a>
+
+        </div>
     </div>
 </div>
 

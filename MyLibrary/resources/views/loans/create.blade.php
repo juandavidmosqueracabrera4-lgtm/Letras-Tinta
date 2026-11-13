@@ -58,10 +58,12 @@
                     <option value="">Select a book</option>
 
                     @foreach($books as $book)
-                        <option value="{{ $book->id }}"
-                            {{ old('book_id') == $book->id ? 'selected' : '' }}>
-                            {{ $book->title }}
-                        </option>
+                        @if($book->available_copies > 0)
+                            <option value="{{ $book->id }}"
+                                {{ old('book_id') == $book->id ? 'selected' : '' }}>
+                                {{ $book->title }} ({{ $book->available_copies }} available)
+                            </option>
+                        @endif
                     @endforeach
 
                 </select>

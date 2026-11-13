@@ -47,6 +47,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/prestamos/crear', [LoanController::class, 'create'])->name('loans.create');
         Route::post('/prestamos/procesar', [LoanController::class, 'store'])->name('loans.store');
         Route::get('/prestamos/{id}', [LoanController::class, 'show'])->name('loans.show');
+        Route::get('/prestamos/editar/{id}', [LoanController::class, 'edit'])->name('loans.edit');
+        Route::put('/prestamos/actualizar/{id}', [LoanController::class, 'update'])->name('loans.update');
+        Route::post('/prestamos/devolver/{id}', [LoanController::class, 'returnLoan'])->name('loans.return');
+        Route::delete('/prestamos/eliminar/{id}', [LoanController::class, 'destroy'])->name('loans.destroy');
     });
 
     // 3. USUARIOS: Exclusivo para admin
