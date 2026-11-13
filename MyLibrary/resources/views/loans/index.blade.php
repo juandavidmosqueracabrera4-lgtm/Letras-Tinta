@@ -65,10 +65,22 @@
                                     <span class="badge bg-success">
                                         {{ ucfirst($loan->status) }}
                                     </span>
+                                </td>
+                                <td>
                                     <a href="{{ route('loans.show', $loan->id) }}"
                                         class="btn btn-sm btn-info">
                                             View
                                     </a>
+                                    <a href="{{ route('loans.show', $loan->id) }}"
+                                        class="btn btn-sm btn-info">
+                                            Edit
+                                    </a>
+
+                                    <a href="{{ route('loans.show', $loan->id) }}"
+                                        class="btn btn-sm btn-info">
+                                            Delete
+                                    </a>
+
                                 </td>
                             </tr>
                         @endforeach
