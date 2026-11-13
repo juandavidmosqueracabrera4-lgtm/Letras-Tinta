@@ -17,17 +17,52 @@
             </a>
 
             <div class="navbar-nav">
-                <a class="nav-link" href="{{ route('books.index') }}">
-                    Books
-                </a>
-                <a class="nav-link" href="{{ route('users.index') }}">
-                    Users
-                </a>
-                <a class="nav-link" href="{{ route('loans.index') }}">
-                    Loans
-                </a>
-            </div>
 
+                @auth
+
+                    {{-- Admin --}}
+                    @if(auth()->user()->hasRole('admin'))
+                        <a class="nav-link" href="{{ route('books.index') }}">
+                            Books
+                        </a>
+                        <a class="nav-link" href="{{ route('users.index') }}">
+                            Users
+                        </a>
+                        <a class="nav-link" href="{{ route('loans.index') }}">
+                            Loans
+                        </a>
+                    @endif
+
+                    {{-- Bibliotecario --}}
+                    @if(auth()->user()->hasRole('bibliotecario'))
+                        <a class="nav-link" href="{{ route('books.index') }}">
+                            Books
+                        </a>
+                        <a class="nav-link" href="{{ route('loans.index') }}">
+                            Loans
+                        </a>
+                    @endif
+
+                    {{-- Bibliotecario --}}
+                    @if(auth()->user()->hasRole('bibliotecario'))
+                        <a class="nav-link" href="{{ route('books.index') }}">
+                            Books
+                        </a>
+                        <a class="nav-link" href="{{ route('loans.index') }}">
+                            Loans
+                        </a>
+                    @endif
+
+                    {{-- Lector --}}
+                    @if(auth()->user()->hasRole('lector'))
+                        <a class="nav-link" href="{{ route('books.index') }}">
+                            Books
+                        </a>
+                    @endif
+
+                @endauth
+
+            </div>
             @auth
                 <div class="d-flex align-items-center ms-auto">
                     <span class="navbar-text text-light me-3">

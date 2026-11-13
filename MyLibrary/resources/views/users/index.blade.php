@@ -34,7 +34,7 @@
                             <th>Email</th>
                             <th>Document</th>
                             <th>Role</th>
-                            <th>Actions</th>
+                            <th colspan="2" class="text-center">Actions</th>
                         </tr>
                     </thead>
 
@@ -48,11 +48,28 @@
                                 <td>{{ $user->role->name ?? 'No role assigned' }}</td>
 
                                 <td>
+                                    <div class="d-flex justify-content-center gap-4">
                                     <a href="{{ route('users.edit', $user->id) }}"
-                                       class="btn btn-sm btn-warning">
+                                       class="btn btn-warning btn-sm">
                                         Edit
                                     </a>
-                                </td>
+
+
+                                     <!-- Formulario para eliminar un user -->
+                                <form action="{{ route('users.destroy', $user->id) }}"
+                                 method="POST"
+                                 class="d-inline"
+                                 onsubmit="return confirm('Are you sure you want to delete this user?')">
+
+                                 @csrf
+                                 @method('DELETE')
+
+                                     <button type="submit" class="btn btn-danger btn-sm">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </div>
                             </tr>
                         @endforeach
                     </tbody>
