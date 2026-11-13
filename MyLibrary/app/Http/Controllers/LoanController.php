@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreLoanRequest;
 use App\Models\Loan;
 // AGREGA LA IMPORTACION DEL MANEJO DE ERRORES
 use Exception;
@@ -23,14 +23,9 @@ class LoanController extends Controller
         return view('loans.create', compact('users', 'books'));
     }
     //registrar un nuevo préstamo
-    public function store(Request $request)
+    public function store(StoreLoanRequest $request)
     {
-        // CORREGIDA LA VALIDACION, CAMBIO VALIDABLE POR VALIDATE
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'book_id' => 'required|exists:books,id',
-            'loan_date' => 'required|date',
-        ]);
+
 
         // AGREGADO EL MANEJO DE ERRORES TRY/CATCH CON Log::error Y LA VALIDACION QUEDA FUERA DEE TRY
         try {
@@ -45,12 +40,12 @@ class LoanController extends Controller
         return redirect()->route('loans.index')->with('success', 'Loan registered successfully');
         } catch (Exception $ex) {
            Log::error($ex);
-           
+
            return redirect()->back()->with('error', 'An error has occurred.');
         }
     }
 
-    
+
     public function show($id)
     {
         $loan = Loan::with(['user', 'book'])->findOrFail($id);
