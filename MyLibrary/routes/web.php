@@ -26,7 +26,6 @@ Route::middleware(['auth'])->group(function () {
 
     // LIBROS: Solo admin y bibliotecario pueden crear, editar y eliminar (ANTES de /libros/{id})
     Route::middleware(['role:admin,bibliotecario'])->group(function () {
-         Route::get('/libros/{id}', [BookController::class, 'show'])->whereNumber('id')->name('books.show');
         Route::get('/libros/crear', [BookController::class, 'create'])->name('books.create');
         Route::post('/libros/guardar', [BookController::class, 'store'])->name('books.store');
         Route::get('/libros/editar/{id}', [BookController::class, 'edit'])->name('books.edit');
