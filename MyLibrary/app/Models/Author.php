@@ -14,6 +14,6 @@ class Author extends Model
     //un autor tiene muchos libros
     public function books()
     {
-        return $this->hasMany(Book::class, 'book_authors');
+        return $this->belongsToMany(Book::class, 'book_authors');
     }
 }
