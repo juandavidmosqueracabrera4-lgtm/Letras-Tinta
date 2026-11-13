@@ -14,24 +14,24 @@
         </p>
     </div>
 
-    <a href="{{ route('loans.create') }}" class="btn btn-primary">
-        Register Loan
-    </a>
-</div>
-
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+        <a href="{{ route('loans.create') }}" class="btn btn-primary">
+             Register Loan
+        </a>
     </div>
-@endif
 
-@if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-<div class="card shadow-sm">
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="card shadow-sm">
     <div class="card-body">
 
         @if($loans->isEmpty())
@@ -62,7 +62,7 @@
                                 <td>{{ $loan->book->title ?? 'Unknown' }}</td>
                                 <td>{{ $loan->loan_date }}</td>
                                 <td>
-                                    <span class="badge bg-success">
+                                    <span class="badge {{ $loan->status == 'active' ? 'bg-success' : 'bg-secondary' }}">
                                         {{ ucfirst($loan->status) }}
                                     </span>
                                 </td>
@@ -71,15 +71,23 @@
                                         class="btn btn-sm btn-info">
                                             View
                                     </a>
-                                    <a href="{{ route('loans.show', $loan->id) }}"
+                                    <a href="{{ route('loans.edit', $loan->id) }}"
                                         class="btn btn-sm btn-info">
                                             Edit
                                     </a>
 
-                                    <a href="{{ route('loans.show', $loan->id) }}"
-                                        class="btn btn-sm btn-info">
-                                            Delete
-                                    </a>
+                                     <form action="{{ route('loans.destroy', $loan->id) }}"
+                                        method="POST"
+                                        class="d-inline"
+                                        onsubmit="return confirm('Are you sure you want to delete this loan?')">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                             Delete
+                                        </button>
+                                </form>
 
                                 </td>
                             </tr>
