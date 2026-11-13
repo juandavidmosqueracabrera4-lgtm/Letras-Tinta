@@ -26,6 +26,7 @@
                 <th>Author</th>
                 <th>Categories</th>
                 <th>ISBN</th>
+                <th>Total Copies</th>
                 <th>Available Copies</th>
                 <th>Actions</th>
             </tr>
@@ -44,6 +45,7 @@
                     <td>{{ $book->authors->pluck('name')->join(', ') ?: 'No author assigned' }}</td>
                     <td>{{ $book->categories->pluck('name')->join(', ') ?: 'No category assigned' }}</td>
                     <td>{{ $book->isbn }}</td>
+                    <td>{{ $book->total_copies }}</td>
                     <td>{{ $book->available_copies }}</td>
                     <td>
                         <!-- Botón para editar -->
@@ -71,7 +73,7 @@
             @empty
                 <!-- Mensaje cuando no hay libros registrados -->
                 <tr>
-                    <td colspan="6" class="text-center">
+                    <td colspan="7" class="text-center">
                         No books are registered.
                     </td>
                 </tr>

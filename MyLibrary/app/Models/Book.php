@@ -10,7 +10,7 @@ class Book extends Model
 
     use HasFactory;
 
-    protected $fillable = ['title', 'isbn', 'status', 'available_copies'];
+    protected $fillable = ['title', 'isbn', 'status', 'total_copies', 'available_copies'];
 
     //Relación muchos a muchos con autores
     public function authors()
@@ -23,7 +23,7 @@ class Book extends Model
     {
         return $this->belongsToMany(Category::class, 'book_categories');
     }
-     
+
     //un libro puede tener muchos préstamos
     public function loans()
     {

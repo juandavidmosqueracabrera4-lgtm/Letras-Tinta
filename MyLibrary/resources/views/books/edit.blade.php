@@ -10,10 +10,10 @@
     Update the information of the book.
 </p>
 
-        <form action="{{ route('books.update', $book->id) }}" 
+        <form action="{{ route('books.update', $book->id) }}"
             method="POST"
             class="card p-4 shadow-sm">
-    
+
         @csrf
         @method('PUT')
 
@@ -38,7 +38,7 @@
             id="title"
             name="title"
             class="form-control"
-            value="{{ old('title', $book->title) }}" 
+            value="{{ old('title', $book->title) }}"
             required>
 
         </div>
@@ -58,7 +58,7 @@
             @foreach($authors as $author)
                 <option value="{{ $author->id}}"
                     {{ in_array($author->id, old('author_ids', $book->authors->pluck('id')->toArray())) ? 'selected' : ''}}>
-                    {{ $author->name }} 
+                    {{ $author->name }}
                 </option>
                 @endforeach
 
@@ -102,11 +102,26 @@
             </div>
 
             <div class="mb-3">
+                <label for="total_copies" class="form-label">
+                    Total Copies
+                </label>
+
+                <input
+                    type="number"
+                    id="total_copies"
+                    name="total_copies"
+                    class="form-control"
+                    value="{{ old('total_copies', $book->total_copies) }}"
+                    min="0"
+                    required>
+            </div>
+
+            <div class="mb-3">
                 <label for="available_copies" class="form-label">
                     Available Copies
                 </label>
 
-                <input 
+                <input
                     type="number"
                     id="available_copies"
                     name="available_copies"
@@ -117,12 +132,12 @@
             </div>
 
             <div class="d-flex justify-content-between">
-                <a href="{{ route('books.index') }}" 
+                <a href="{{ route('books.index') }}"
                 class="btn btn-secondary">
                     Cancel
                 </a>
 
-                <button type="submit" 
+                <button type="submit"
                 class="btn btn-success">
                     Update Book
                 </button>

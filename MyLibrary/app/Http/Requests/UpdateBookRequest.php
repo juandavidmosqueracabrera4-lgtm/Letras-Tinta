@@ -29,7 +29,8 @@ class UpdateBookRequest extends FormRequest
             'category_ids.*' => 'integer|exists:categories,id',
             //APLICA REGLA PARA EVITAR ISBN DUPLICADOS
             'isbn' => ['required','string',  Rule::unique('books', 'isbn')->ignore($id),],
-            'available_copies' => 'required|integer|min:0',
+            'total_copies' => 'required|integer|min:1',
+            'available_copies' => 'required|integer|min:0|lte:total_copies',
         ];
     }
 }

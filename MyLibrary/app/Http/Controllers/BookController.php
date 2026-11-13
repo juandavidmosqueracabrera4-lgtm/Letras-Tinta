@@ -72,6 +72,7 @@ class BookController extends Controller
         $book->update([
             'title' => $request->title,
             'isbn' => $request->isbn,
+            'total_copies' => $request->total_copies,
             'available_copies' => $request->available_copies,
         ]);
 
@@ -111,6 +112,7 @@ class BookController extends Controller
              $book = Book::create([
              'title' => $request->title,
              'isbn' => $request->isbn,
+             'total_copies' => $request->total_copies,
              'available_copies' => $request->available_copies,
             // Estado por defecto según el diagrama del profesor
              'status' => 'available'

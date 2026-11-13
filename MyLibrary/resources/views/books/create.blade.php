@@ -44,7 +44,7 @@
                     id="author_ids"
                     name="author_ids[]"
                     class="form-select"
-                    multiple required>  
+                    multiple required>
                 <option value="" disabled>Select authors</option>
 
                 @foreach($authors as $author)
@@ -72,7 +72,7 @@
 
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}"
-                        {{ is_array(old('category_ids')) && in_array($category->id, 
+                        {{ is_array(old('category_ids')) && in_array($category->id,
                         old('category_ids')) ? 'selected' : '' }}>
                         {{ $category->name }}
                     </option>
@@ -94,6 +94,22 @@
                     value="{{ old('isbn') }}"
                     required>
         </div>
+
+         <div class="mb-3">
+            <label for="total_copies" class="form-label">
+                 Total Copies
+            </label>
+
+            <input
+                    type="number"
+                    id="total_copies"
+                    name="total_copies"
+                    class="form-control"
+                    value="{{ old('total_copies', 1) }}"
+                    min="0"
+                    required>
+        </div>
+
 
         <div class="mb-3">
             <label for="available_copies" class="form-label">
