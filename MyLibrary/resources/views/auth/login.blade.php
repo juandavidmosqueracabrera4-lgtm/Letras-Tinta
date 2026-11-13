@@ -70,9 +70,15 @@
 
                             <button type="submit" class="btn btn-primary w-100">
                                 Sign In
-                            </button>
+                            </button>   
 
                         </form>
+
+                        <div class="text-center mt-3">
+                            <small class="text-muted">
+                                Don't have an account? <a href="{{ route('register') }}">Register here</a>
+                            </small>
+                        </div>
 
                     </div>
                 </div>
