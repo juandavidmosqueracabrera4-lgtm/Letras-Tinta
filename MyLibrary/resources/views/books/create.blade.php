@@ -56,6 +56,10 @@
                 @endforeach
 
                 </select>
+
+                <a href="{{ route('authors.create') }}" class="btn btn-outline-primary btn-sm mt-2">
+                    Add New Author
+                </a>
         </div>
 
         <div class="mb-3">
@@ -79,6 +83,11 @@
                 @endforeach
 
             </select>
+
+            <a href="{{ route('categories.create') }}" class="btn btn-outline-primary btn-sm mt-2">
+                Add New Category
+            </a>
+
         </div>
 
         <div class="mb-3">
@@ -124,6 +133,7 @@
                     value="{{ old('available_copies', 1) }}"
                     min="0"
                     required>
+
         </div>
 
            <div class="d-flex justify-content-between">
