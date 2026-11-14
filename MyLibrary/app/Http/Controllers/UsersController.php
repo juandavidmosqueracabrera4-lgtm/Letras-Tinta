@@ -39,7 +39,8 @@ class UsersController extends Controller
             'email'    => 'required|email|unique:users,email',
             'document' => 'required|max:20|unique:users,document',
             'role_id'  => 'required|exists:roles,id',
-            'password' => 'required|string|min:6',
+            //se elimina la validacion de password ya que se genera automaticamente con el documento
+            //'password' => 'required|string|min:6',
         ],
         [
             'name.required'      => 'The name is required',
@@ -52,7 +53,8 @@ class UsersController extends Controller
             'document.unique'    => 'This document is already registered',
             'role_id.required'   => 'The role is required',
             'role_id.exists'     => 'The selected role does not exist',
-            'password.required'  => 'The password is required'
+            //se elimina la validacion de password ya que se genera automaticamente con el documento
+            //'password.required'  => 'The password is required'
         ])->validate();
 
         try {
@@ -64,7 +66,7 @@ class UsersController extends Controller
             $user->role_id  = $request->role_id;
 
             // Regla de negocio: la contraseña inicial es el documento encriptado
-            $user->password = Hash::make($request->password);
+            $user->password = Hash::make($request->document);
 
             // Regla de negocio: el correo se verifica al crear el usuario por un administrador
             $user->email_verified_at = now();
