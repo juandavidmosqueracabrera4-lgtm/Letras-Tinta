@@ -167,4 +167,80 @@ class BookController extends Controller
         }
     }
 
+    // Metodo almacena un nuevo autor en la base de datos
+    public function storeAuthor()
+    {
+        // Valida los datos para que no esten repetidos
+        $validator = \Illuminate\Support\Facades\Validator::make(
+            request()->all(),
+            [
+                'name' => 'required|string|max:255|unique:authors,name'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        //crea el autor maneja los errores
+        try {
+            Author::create($validator->validated());
+
+            Session::flash('message',  [
+                'content' => 'Author registered successfully.',
+                'type' => 'success'
+            ]);
+
+            return redirect()->route('books.create');
+
+        } catch (Exception $ex) {
+            Log::error($ex);
+
+            Session::flash('message', [
+                'content' => 'An error has occurred.',
+                'type' => 'error'
+            ]);
+
+           return redirect()->back();
+        }
+    }
+
+    // Metodo almacena una nueva categoria en la base de datos
+    public function storeCategory()
+    {
+        // Valida los datos para que no esten repetidos
+        $validator = \Illuminate\Support\Facades\Validator::make(
+             request()->all(),
+            [
+                'name' => 'required|string|max:255|unique:categories,name'
+             ]
+        );
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+         // Crea la categoria y maneja los errores
+        try {
+              Category::create($validator->validated());
+
+                Session::flash('message', [
+                    'content' => 'Category registered successfully.',
+                    'type' => 'success'
+                ]);
+
+                return redirect()->route('books.create');
+
+        } catch (Exception $ex) {
+            Log::error($ex);
+
+            Session::flash('message', [
+                'content' => 'An error has occurred.',
+                'type' => 'error'
+            ]);
+
+            return redirect()->back();
+        }
+    }
 }
+
