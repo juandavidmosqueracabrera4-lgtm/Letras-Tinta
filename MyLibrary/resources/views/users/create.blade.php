@@ -20,6 +20,17 @@
         <form action="{{ route('users.store') }}" method="POST">
             @csrf
 
+            {{--Mensaje de duplicacion en docuemnto o correo--}}
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                     @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                     @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" name="name" id="name"
@@ -32,14 +43,15 @@
                        class="form-control" value="{{ old('email') }}" required>
             </div>
 
-            <div class="mb-3">   
+            {{--Campo de contraseña eliminado ya que se genera automáticamente con el documento en el controlador UsersController--}}
+            {{--<div class="mb-3">
                 <label for="password" class="form-label">password</label>
                 <input type="password" name="password" id="password"
                        class="form-control @error('password') is-invalid @enderror" required>
                 @error('password')
                         <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            </div>
+            </div>--}}
 
             <div class="mb-3">
                 <label for="document" class="form-label">
