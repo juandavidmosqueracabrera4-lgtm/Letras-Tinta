@@ -12,4 +12,10 @@ class Role extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    // Obtiene los permisos asignados al rol
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'role_permissions');
+    }
 }
