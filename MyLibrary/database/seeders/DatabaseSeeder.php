@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
         $librarianRole = Role::firstOrCreate(['name' => 'bibliotecario']);
         $readerRole = Role::firstOrCreate(['name' => 'lector']);
 
+        // Registrar los permisos y asignarlos a cada rol
+        $this->call(PermissionSeeder::class);
+
         // 4 usuarios administradores
         $admins = [
             [
