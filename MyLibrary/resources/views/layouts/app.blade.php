@@ -43,16 +43,6 @@
                         </a>
                     @endif
 
-                    {{-- Bibliotecario --}}
-                    @if(auth()->user()->hasRole('bibliotecario'))
-                        <a class="nav-link" href="{{ route('books.index') }}">
-                            Books
-                        </a>
-                        <a class="nav-link" href="{{ route('loans.index') }}">
-                            Loans
-                        </a>
-                    @endif
-
                     {{-- Lector --}}
                     @if(auth()->user()->hasRole('lector'))
                         <a class="nav-link" href="{{ route('books.index') }}">
