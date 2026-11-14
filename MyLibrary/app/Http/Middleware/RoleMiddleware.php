@@ -9,23 +9,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+    // Verificar que el usuario tenga uno de los roles permitidos
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        // 1. Verificar que el usuario haya iniciado sesión
+        // Comprobar que el usuario haya iniciado sesión
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
         $user = Auth::user();
 
-        // 2. Verificar que tenga un rol asignado y que coincida con los permitidos en la ruta
+        // Comprobar que el usuario tenga un rol permitido
         if (!$user->role || !in_array($user->role->name, $roles)) {
-            abort(403, 'Acceso denegado: No tienes permisos para acceder a esta sección.');
+            abort(403, 'Access denied: You do not have permission to access this section.');
         }
 
         return $next($request);
