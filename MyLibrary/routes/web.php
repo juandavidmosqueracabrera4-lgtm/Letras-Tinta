@@ -47,10 +47,22 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/prestamos/crear', [LoanController::class, 'create'])->name('loans.create');
         Route::post('/prestamos/procesar', [LoanController::class, 'store'])->name('loans.store');
         Route::get('/prestamos/{id}', [LoanController::class, 'show'])->name('loans.show');
+
         Route::get('/prestamos/editar/{id}', [LoanController::class, 'edit'])->name('loans.edit');
         Route::put('/prestamos/actualizar/{id}', [LoanController::class, 'update'])->name('loans.update');
         Route::post('/prestamos/devolver/{id}', [LoanController::class, 'returnLoan'])->name('loans.return');
         Route::delete('/prestamos/eliminar/{id}', [LoanController::class, 'destroy'])->name('loans.destroy');
+
+        //rutas para guardar autores y categorias
+        Route::post('/autores/guardar', [BookController::class, 'storeAuthor'])->name('authors.store');
+        Route::post('/categorias/guardar', [BookController::class, 'storeCategory'])->name('categories.store');
+        Route::get('/autores/crear', function () {
+            return view('authors.create');
+        })->name('authors.create');
+        Route::get('/categorias/crear', function () {
+            return view('categories.create');
+        })->name('categories.create');
+
     });
 
     // 3. USUARIOS: Exclusivo para admin
