@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreLoanRequest;
+use App\Http\Requests\UpdateLoanRequest;
 use App\Models\Loan;
 use App\Models\Book;
 use App\Models\User;
@@ -55,7 +56,7 @@ class LoanController extends Controller
 
         // CORREGIDO EL MENSAJE DE RESPUESTA y SE AGREGA EL OBJETO LOAN A LA RESPUESTA
         return redirect()->route('loans.index')->with('success', 'Loan registered successfully');
-        
+
         } catch (Exception $ex) {
            Log::error($ex);
 
@@ -79,7 +80,8 @@ class LoanController extends Controller
         return view('loans.edit', compact('loan', 'users', 'books'));
     }
 
-    public function update(Request $request, $id)
+   // Actualiza un prestamo aplicando las validaciones definidas en UpdateLoanRequest
+    public function update(UpdateLoanRequest $request, $id)
     {
         try {
 
@@ -101,7 +103,7 @@ class LoanController extends Controller
                         throw new Exception('No available copies for the new book.');
                     }
 
-                        
+
                     $oldBook->available_copies = $oldBook->available_copies + 1;
                     $oldBook->save();
 
