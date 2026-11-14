@@ -67,6 +67,7 @@ class PermissionSeeder extends Seeder
                     'books.view',
                     'books.create',
                     'books.edit',
+                    'books.delete',
                     'authors.view',
                     'authors.create',
                     'authors.edit',
@@ -77,6 +78,7 @@ class PermissionSeeder extends Seeder
                     'loans.create',
                     'loans.edit',
                     'loans.return',
+                    'loans.delete',
                 ])->pluck('id')
             );
         }
