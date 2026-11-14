@@ -8,7 +8,9 @@
     <!-- Encabezado del catálogo -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Book Catalog</h1>
+        @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('bibliotecario'))
         <a href="{{ route('books.create') }}" class="btn btn-primary">Add Book</a>
+@endif
     </div>
 
     <!-- Mensaje de operación exitosa -->
@@ -28,7 +30,9 @@
                 <th>ISBN</th>
                 <th>Total Copies</th>
                 <th>Available Copies</th>
-                <th>Actions</th>
+               @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('bibliotecario'))
+                 <th>Actions</th>
+                @endif
             </tr>
         </thead>
 
@@ -48,11 +52,14 @@
                     <td>{{ $book->total_copies }}</td>
                     <td>{{ $book->available_copies }}</td>
                     <td>
+
                         <!-- Botón para editar -->
-                        <a href="{{ route('books.edit', $book->id) }}"
-                            class="btn btn-warning btn-sm">
-                            Edit
-                        </a>
+                        @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('bibliotecario'))
+
+                            <a href="{{ route('books.edit', $book->id) }}"
+                                class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
 
                         <!-- Formulario para eliminar un libro -->
                         <form action="{{ route('books.destroy', $book->id) }}"
@@ -67,13 +74,14 @@
                               Delete
                             </button>
                         </form>
+                        @endif
                     </td>
 
                 </tr>
             @empty
                 <!-- Mensaje cuando no hay libros registrados -->
                 <tr>
-                    <td colspan="7" class="text-center">
+                   <td colspan="{{ auth()->user()->hasRole('admin') || auth()->user()->hasRole('bibliotecario') ? 7 : 6 }}" class="text-center">
                         No books are registered.
                     </td>
                 </tr>
