@@ -62,14 +62,14 @@ class DatabaseSeeder extends Seeder
         User::firstOrCreate(
             ['email' => 'test@example.com'],
             [
-                'document' => '1000000000',
+                'document' => '1000000005',
                 'name' => 'Test Admin',
                 'password' => bcrypt('password'),
                 'role_id' => $adminRole->id,
             ]
         );
 
-        // CREAR AUTORES PREDETERMINADOS 
+        // CREAR AUTORES PREDETERMINADOS
         $autores = [
             ['name' => 'Gabriel García Márquez'],
             ['name' => 'Miguel de Cervantes'],
